@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.ssid_finder"
+    namespace "com.chipaway.ssid_finder"
     compileSdk 36
     ndkVersion flutter.ndkVersion
 
@@ -41,16 +41,31 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.ssid_finder"
-        minSdkVersion flutter.minSdkVersion
+        applicationId "com.chipaway.ssid_finder"
+        minSdkVersion 21
         targetSdkVersion 36
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            // TODO: Configure release signing
+            // For now using debug, you'll need to generate a keystore
+            // See: https://docs.flutter.dev/deployment/android#signing-the-app
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }

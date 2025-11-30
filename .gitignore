@@ -40,3 +40,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Release keystore and signing configuration (NEVER COMMIT THESE!)
+*.jks
+*.keystore
+android/key.properties
+release-keystore.jks
+key.properties
