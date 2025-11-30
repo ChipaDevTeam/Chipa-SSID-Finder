@@ -35,7 +35,7 @@ class PlatformConstants {
     TradingPlatform(
       name: 'pocketoptions',
       displayName: 'PocketOptions',
-      url: 'https://pocketoption.com/en/login',
+      url: 'https://pocketoption.com',
       cookieKey: 'ci_session',
       type: PlatformType.pocketOption,
       userIdCookieKey: 'user_id',

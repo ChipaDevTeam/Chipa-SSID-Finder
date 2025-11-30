@@ -60,24 +60,41 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     },
                   ),
                   initialSettings: InAppWebViewSettings(
-                    useShouldOverrideUrlLoading: true,
-                    mediaPlaybackRequiresUserGesture: false,
-                    allowsInlineMediaPlayback: true,
-                    iframeAllow: "camera; microphone",
-                    iframeAllowFullscreen: true,
                     javaScriptEnabled: true,
                     domStorageEnabled: true,
                     databaseEnabled: true,
                     thirdPartyCookiesEnabled: true,
-                    supportZoom: true,
-                    builtInZoomControls: false,
-                    userAgent: 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                    mixedContentMode: MixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
-                    cacheEnabled: true,
-                    clearCache: false,
                     sharedCookiesEnabled: true,
+                    
+                    // User agent
+                    userAgent: 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                    
+                    // Content settings
+                    mediaPlaybackRequiresUserGesture: false,
+                    allowsInlineMediaPlayback: true,
+                    mixedContentMode: MixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
+                    
+                    // View settings
                     useWideViewPort: true,
                     loadWithOverviewMode: true,
+                    supportZoom: true,
+                    builtInZoomControls: false,
+                    
+                    // Cache and storage
+                    cacheEnabled: true,
+                    clearCache: false,
+                    
+                    // Security and features
+                    allowFileAccessFromFileURLs: true,
+                    allowUniversalAccessFromFileURLs: true,
+                    javaScriptCanOpenWindowsAutomatically: true,
+                    
+                    // IFrame support
+                    iframeAllow: "camera; microphone; geolocation",
+                    iframeAllowFullscreen: true,
+                    
+                    // Override URL loading
+                    useShouldOverrideUrlLoading: false,
                   ),
                   onWebViewCreated: (controller) {
                     webViewController = controller;
