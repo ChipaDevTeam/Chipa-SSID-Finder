@@ -55,6 +55,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 child: InAppWebView(
                   initialUrlRequest: URLRequest(
                     url: WebUri(widget.platform.url),
+                    headers: {
+                      'User-Agent': 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                    },
                   ),
                   initialSettings: InAppWebViewSettings(
                     useShouldOverrideUrlLoading: true,
@@ -64,9 +67,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     iframeAllowFullscreen: true,
                     javaScriptEnabled: true,
                     domStorageEnabled: true,
+                    databaseEnabled: true,
                     thirdPartyCookiesEnabled: true,
                     supportZoom: true,
                     builtInZoomControls: false,
+                    userAgent: 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                    mixedContentMode: MixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
+                    cacheEnabled: true,
+                    clearCache: false,
+                    sharedCookiesEnabled: true,
+                    useWideViewPort: true,
+                    loadWithOverviewMode: true,
                   ),
                   onWebViewCreated: (controller) {
                     webViewController = controller;
@@ -94,6 +105,15 @@ class _WebViewScreenState extends State<WebViewScreen> {
                   onUpdateVisitedHistory: (controller, url, androidIsReload) {
                     // Check cookies on navigation
                     _checkForSSID();
+                  },
+                  onReceivedError: (controller, request, error) {
+                    debugPrint('WebView error: ${error.description}');
+                  },
+                  onReceivedHttpError: (controller, request, errorResponse) {
+                    debugPrint('HTTP error: ${errorResponse.statusCode}');
+                  },
+                  onConsoleMessage: (controller, consoleMessage) {
+                    debugPrint('Console: ${consoleMessage.message}');
                   },
                 ),
               ),
