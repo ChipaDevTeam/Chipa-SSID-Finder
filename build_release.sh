@@ -50,12 +50,19 @@ print_success "Flutter found: $(flutter --version | head -n 1)"
 
 # Check if keytool is installed
 print_section "Checking Java keytool"
-if ! command -v keytool &> /dev/null; then
+KEYTOOL=""
+if [ -f "/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/keytool" ]; then
+    KEYTOOL="/Applications/Android Studio.app/Contents/jbr/Contents/Home/bin/keytool"
+    print_success "keytool found (Android Studio Java)"
+elif command -v keytool &> /dev/null; then
+    KEYTOOL="keytool"
+    print_success "keytool found in PATH"
+else
     print_error "keytool is not installed (part of JDK)"
     echo "Install JDK: brew install openjdk"
+    echo "Or install Android Studio"
     exit 1
 fi
-print_success "keytool found"
 
 # Step 1: Generate keystore (if not exists)
 KEYSTORE_FILE="$PROJECT_DIR/release-keystore.jks"
@@ -79,7 +86,7 @@ if [ ! -f "$KEYSTORE_FILE" ]; then
     echo "Generating new keystore..."
     echo -e "${YELLOW}Please provide the following information:${NC}\n"
     
-    keytool -genkey -v -keystore "$KEYSTORE_FILE" \
+    $KEYTOOL -genkey -v -keystore "$KEYSTORE_FILE" \
         -keyalg RSA -keysize 2048 -validity 10000 \
         -alias release-key
     
