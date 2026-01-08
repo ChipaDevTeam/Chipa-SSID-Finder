@@ -79,7 +79,7 @@ class PlatformConstants {
     TradingPlatform(
       name: 'axiomtrade',
       displayName: 'AxiomTrade',
-      url: 'https://axiomtrade.com',
+      url: 'https://axiom.trade',
       cookieKey: 'access_token',
       colors: [0xFFEC4899, 0xFFDB2777], // Pink gradient
     ),

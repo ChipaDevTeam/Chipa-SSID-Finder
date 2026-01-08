@@ -293,14 +293,12 @@ class _WebViewScreenState extends State<WebViewScreen> {
                     const SizedBox(height: 20),
                     // Display all formatted SSIDs
                     ...formattedSSIDs!.entries.map((entry) {
-                      return Column(
-                        children: [
-                          _buildSSIDCard(
-                            label: _getSSIDLabel(entry.key),
-                            value: entry.value,
-                          ),
-                          const SizedBox(height: 12),
-                        ],
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _buildSSIDCard(
+                          label: _getSSIDLabel(entry.key),
+                          value: entry.value,
+                        ),
                       );
                     }).toList(),
                     const SizedBox(height: 4),
@@ -346,7 +344,24 @@ class _WebViewScreenState extends State<WebViewScreen> {
     }
   }
 
+  String? _getSSIDWarning(String key) {
+    switch (key) {
+      case 'real':
+        return '⚠️ This SSID only works on this device. Download our upcoming desktop app to find the real SSID for your PC.';
+      default:
+        return null;
+    }
+  }
+
   Widget _buildSSIDCard({required String label, required String value}) {
+    // Extract key from label (e.g., 'demo' from 'Demo SSID')
+    String key = '';
+    if (label.contains('Demo')) key = 'demo';
+    if (label.contains('Real')) key = 'real';
+    if (label.contains('Token')) key = 'token';
+    
+    final warning = _getSSIDWarning(key);
+    
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -396,6 +411,28 @@ class _WebViewScreenState extends State<WebViewScreen> {
               ),
             ],
           ),
+          if (warning != null) ...[
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.orange.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: Colors.orange.withOpacity(0.5),
+                  width: 1,
+                ),
+              ),
+              child: Text(
+                warning,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
           const SizedBox(height: 8),
           Container(
             constraints: const BoxConstraints(maxHeight: 150),
