@@ -1,8 +1,25 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 import 'screens/platform_selector_screen.dart';
+import 'desktop/desktop_app.dart';
 
-void main() {
-  runApp(const SSIDFinderApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    await windowManager.ensureInitialized();
+    windowManager.waitUntilReadyToShow().then((_) async {
+      await windowManager.setTitleBarStyle(TitleBarStyle.hidden);
+      await windowManager.setMinimumSize(const Size(1000, 700)); // Professional min size
+      await windowManager.center();
+      await windowManager.show();
+    });
+    
+    runApp(const DesktopApp());
+  } else {
+    runApp(const SSIDFinderApp());
+  }
 }
 
 class SSIDFinderApp extends StatelessWidget {

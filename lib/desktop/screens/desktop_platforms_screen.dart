@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/trading_platform.dart';
-import '../widgets/desktop_platform_card.dart'; // I will create this reusable card
+import '../widgets/desktop_platform_card.dart';
+import '../../screens/webview_screen.dart';
 
 class DesktopPlatformsScreen extends StatelessWidget {
   const DesktopPlatformsScreen({super.key});
@@ -19,13 +20,37 @@ class DesktopPlatformsScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          const TextField(
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.search),
-              hintText: 'Search platforms...',
-              border: OutlineInputBorder(),
-              filled: true,
-            ),
+          // Search & Filter Bar
+          Row(
+            children: [
+              const Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    hintText: 'Search platforms...',
+                    border: OutlineInputBorder(),
+                    filled: true,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              DropdownButtonHideUnderline(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: DropdownButton<String>(
+                    value: 'All Categories',
+                    items: ['All Categories', 'Binary', 'Crypto', 'Forex']
+                        .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                        .toList(),
+                    onChanged: (val) {},
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 32),
           Expanded(
@@ -41,7 +66,13 @@ class DesktopPlatformsScreen extends StatelessWidget {
                 return DesktopPlatformCard(
                   platform: PlatformConstants.platforms[index],
                   onTap: () {
-                    // Navigate to Webview
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => WebViewScreen(
+                          platform: PlatformConstants.platforms[index],
+                        ),
+                      ),
+                    );
                   },
                 );
               },
