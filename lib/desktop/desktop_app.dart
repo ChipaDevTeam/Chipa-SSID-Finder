@@ -6,8 +6,9 @@ import 'providers/navigation_provider.dart';
 import 'widgets/desktop_sidebar.dart';
 import 'screens/desktop_dashboard_screen.dart';
 import 'screens/desktop_platforms_screen.dart';
-// import 'screens/desktop_history_screen.dart';
-// import 'screens/desktop_settings_screen.dart';
+import 'screens/desktop_history_screen.dart';
+import 'screens/desktop_settings_screen.dart';
+import 'screens/desktop_about_screen.dart';
 
 class DesktopApp extends StatelessWidget {
   const DesktopApp({super.key});
@@ -77,11 +78,11 @@ class DesktopScaffold extends StatelessWidget {
       case DesktopScreen.platforms:
         return const DesktopPlatformsScreen();
       case DesktopScreen.history:
-        return const Center(child: Text('History (Coming Soon)'));
+        return const DesktopHistoryScreen();
       case DesktopScreen.settings:
-        return const Center(child: Text('Settings (Coming Soon)'));
+        return const DesktopSettingsScreen();
       case DesktopScreen.about:
-        return const Center(child: Text('About (Coming Soon)'));
+        return const DesktopAboutScreen();
       default:
         return const Center(child: Text('Unknown Screen'));
     }
