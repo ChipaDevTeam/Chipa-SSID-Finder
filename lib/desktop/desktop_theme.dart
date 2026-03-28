@@ -19,7 +19,7 @@ class DesktopTheme {
       onSurface: Colors.white,
     ),
     textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: cardBackground,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -43,7 +43,7 @@ class DesktopTheme {
       onSurface: const Color(0xFF0F172A),
     ),
     textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Colors.white,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
