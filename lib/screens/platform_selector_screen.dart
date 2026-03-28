@@ -223,6 +223,16 @@ class _PlatformSelectorScreenState extends State<PlatformSelectorScreen>
                     ),
                   ),
                 ),
+                // Subtle bottom-right decoration
+                Positioned(
+                  right: -10,
+                  bottom: -10,
+                  child: Icon(
+                    _getPlatformIcon(platform.iconHint),
+                    size: 60,
+                    color: Colors.white.withOpacity(0.08),
+                  ),
+                ),
                 // Content
                 Padding(
                   padding: const EdgeInsets.all(20),
@@ -230,10 +240,17 @@ class _PlatformSelectorScreenState extends State<PlatformSelectorScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
-                        Icons.language,
-                        color: Colors.white,
-                        size: 32,
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          _getPlatformIcon(platform.iconHint),
+                          color: Colors.white,
+                          size: 24,
+                        ),
                       ),
                       const SizedBox(height: 12),
                       Text(
@@ -245,12 +262,25 @@ class _PlatformSelectorScreenState extends State<PlatformSelectorScreen>
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        'Tap to login',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
-                          fontSize: 12,
-                        ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              color: Colors.greenAccent.withOpacity(0.9),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'Tap to connect',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.9),
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -261,5 +291,28 @@ class _PlatformSelectorScreenState extends State<PlatformSelectorScreen>
         ),
       ),
     );
+  }
+
+  IconData _getPlatformIcon(String? iconHint) {
+    switch (iconHint) {
+      case 'chart_line':
+        return Icons.show_chart;
+      case 'wallet':
+        return Icons.account_balance_wallet;
+      case 'trending_up':
+        return Icons.trending_up;
+      case 'bar_chart':
+        return Icons.bar_chart;
+      case 'candlestick':
+        return Icons.candlestick_chart;
+      case 'analytics':
+        return Icons.analytics;
+      case 'auto_graph':
+        return Icons.auto_graph;
+      case 'diamond':
+        return Icons.diamond;
+      default:
+        return Icons.language;
+    }
   }
 }
