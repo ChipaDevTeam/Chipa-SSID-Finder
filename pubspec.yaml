@@ -1,5 +1,5 @@
 name: ssid_finder
-description: Extract SSID tokens from trading platforms with ease. Supports OlympTrade, PocketOptions, and more.
+description: Chipa SSID Finder - Extract session tokens from trading platforms with ease. Supports OlympTrade, PocketOptions, Axiom Trade, and more.
 publish_to: 'none'
 version: 1.0.0+1
 

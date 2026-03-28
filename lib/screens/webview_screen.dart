@@ -26,7 +26,26 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.platform.displayName),
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color(widget.platform.colors[0]),
+                    Color(widget.platform.colors[1]),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: const Icon(Icons.wifi_find, color: Colors.white, size: 16),
+            ),
+            const SizedBox(width: 10),
+            Text(widget.platform.displayName),
+          ],
+        ),
         elevation: 0,
         actions: [
           if (formattedSSIDs != null)

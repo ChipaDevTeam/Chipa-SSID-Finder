@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DesktopTheme {
-  static const Color primaryColor = Color(0xFF6B46C1);
-  static const Color accentColor = Color(0xFF9333EA);
-  static const Color darkBackground = Color(0xFF1F1F1F);
-  static const Color sidebarBackground = Color(0xFF141414);
-  static const Color cardBackground = Color(0xFF2C2C2C);
+  static const Color primaryColor = Color(0xFF0EA5E9);
+  static const Color accentColor = Color(0xFF6366F1);
+  static const Color darkBackground = Color(0xFF0F172A);
+  static const Color sidebarBackground = Color(0xFF0B1120);
+  static const Color cardBackground = Color(0xFF1E293B);
   
   static ThemeData get darkTheme => ThemeData.dark().copyWith(
     primaryColor: primaryColor,
@@ -34,13 +34,13 @@ class DesktopTheme {
 
   static ThemeData get lightTheme => ThemeData.light().copyWith(
     primaryColor: primaryColor,
-    scaffoldBackgroundColor: Colors.grey[50],
+    scaffoldBackgroundColor: const Color(0xFFF8FAFC),
     colorScheme: ColorScheme.light(
       primary: primaryColor,
       secondary: accentColor,
       surface: Colors.white,
-      background: Colors.grey[50]!,
-      onSurface: Colors.black87,
+      background: const Color(0xFFF8FAFC),
+      onSurface: const Color(0xFF0F172A),
     ),
     textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
     cardTheme: CardTheme(
