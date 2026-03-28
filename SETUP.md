@@ -15,7 +15,7 @@
    flutter run
    ```
    
-   For iOS:
+   For iOS: 
    ```bash
    flutter run -d ios
    ```
