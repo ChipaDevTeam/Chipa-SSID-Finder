@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -172,6 +173,19 @@ class _WebViewScreenState extends State<WebViewScreen> {
         }
       }
       
+      // Try alternate cookie keys if main key not found
+      if (cookieValue == null && widget.platform.alternateCookieKeys != null) {
+        for (var altKey in widget.platform.alternateCookieKeys!) {
+          for (var cookie in cookies) {
+            if (cookie.name == altKey) {
+              cookieValue = cookie.value.toString();
+              break;
+            }
+          }
+          if (cookieValue != null) break;
+        }
+      }
+
       // Extract user ID if needed (for PocketOption)
       if (widget.platform.userIdCookieKey != null) {
         for (var cookie in cookies) {
@@ -179,6 +193,36 @@ class _WebViewScreenState extends State<WebViewScreen> {
             userId = cookie.value.toString();
             break;
           }
+        }
+      }
+      
+      // For Web3 platforms, also try extracting from localStorage via JS
+      if (widget.platform.type == PlatformType.web3 && 
+          widget.platform.jsTokenExtraction != null &&
+          cookieValue == null) {
+        try {
+          final jsResult = await webViewController!.evaluateJavascript(
+            source: widget.platform.jsTokenExtraction!,
+          );
+          if (jsResult != null && jsResult.toString().isNotEmpty && jsResult.toString() != '{}') {
+            final resultStr = jsResult.toString();
+            try {
+              final Map<String, dynamic> tokens = json.decode(resultStr);
+              if (tokens.isNotEmpty) {
+                setState(() {
+                  formattedSSIDs = SSIDFormatter.formatWeb3Tokens(tokens);
+                });
+                return;
+              }
+            } catch (_) {
+              // If not valid JSON, treat as raw token
+              if (resultStr.length > 5) {
+                cookieValue = resultStr;
+              }
+            }
+          }
+        } catch (e) {
+          debugPrint('JS extraction error: $e');
         }
       }
 
@@ -339,8 +383,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
         return '💰 Real SSID';
       case 'token':
         return '🔑 Access Token';
+      case 'session':
+        return '🔐 Session Token';
+      case 'wallet':
+        return '👛 Wallet Address';
       default:
-        return key;
+        if (key.startsWith('token_')) return '🔑 Token ${key.split('_').last}';
+        return '🔑 $key';
     }
   }
 

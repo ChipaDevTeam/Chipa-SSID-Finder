@@ -35,4 +35,51 @@ class SSIDFormatter {
       'token': value,
     };
   }
+
+  /// Formats Web3/DeFi platform tokens extracted from cookies or localStorage
+  /// Returns a map with labeled token entries
+  static Map<String, String> formatWeb3Tokens(Map<String, dynamic> tokens) {
+    final result = <String, String>{};
+    
+    // Priority order for display
+    const priorityKeys = ['token', 'session', 'access_token', 'auth_token', 'jwt',
+                           'next-auth.session-token', '__Secure-next-auth.session-token'];
+    
+    // First add priority keys if present
+    for (final key in priorityKeys) {
+      if (tokens.containsKey(key) && tokens[key] != null) {
+        result['session'] = tokens[key].toString();
+        break;
+      }
+    }
+    
+    // Add wallet address if found
+    const walletKeys = ['walletAddress', 'connectedWallet', 'wallet'];
+    for (final key in walletKeys) {
+      if (tokens.containsKey(key) && tokens[key] != null) {
+        result['wallet'] = tokens[key].toString();
+        break;
+      }
+      // Check localStorage prefixed keys
+      if (tokens.containsKey(key) && tokens[key] != null) {
+        result['wallet'] = tokens[key].toString();
+        break;
+      }
+    }
+    
+    // If no priority keys found, add all discovered tokens
+    if (result.isEmpty) {
+      var index = 0;
+      for (final entry in tokens.entries) {
+        if (entry.value != null && entry.value.toString().isNotEmpty) {
+          final label = index == 0 ? 'token' : 'token_${index + 1}';
+          result[label] = entry.value.toString();
+          index++;
+          if (index >= 5) break; // Limit to 5 tokens
+        }
+      }
+    }
+    
+    return result;
+  }
 }

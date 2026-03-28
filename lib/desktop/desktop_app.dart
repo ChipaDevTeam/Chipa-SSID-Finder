@@ -20,7 +20,7 @@ class DesktopApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
       ],
       child: MaterialApp(
-        title: 'SSID Finder Pro',
+        title: 'Chipa SSID Finder',
         theme: DesktopTheme.lightTheme,
         darkTheme: DesktopTheme.darkTheme, // We can toggle this later
         themeMode: ThemeMode.dark, // Default to Dark for "Pro" look

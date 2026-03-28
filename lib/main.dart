@@ -28,32 +28,42 @@ class SSIDFinderApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'SSID Finder',
+      title: 'Chipa SSID Finder',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6B46C1),
+          seedColor: const Color(0xFF0EA5E9),
           brightness: Brightness.light,
         ),
         useMaterial3: true,
+        fontFamily: 'Inter',
         cardTheme: const CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
           ),
+        ),
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          elevation: 0,
         ),
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF6B46C1),
+          seedColor: const Color(0xFF0EA5E9),
           brightness: Brightness.dark,
         ),
         useMaterial3: true,
+        fontFamily: 'Inter',
         cardTheme: const CardThemeData(
           elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
           ),
+        ),
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          elevation: 0,
         ),
       ),
       themeMode: ThemeMode.system,
