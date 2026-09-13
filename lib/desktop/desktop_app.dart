@@ -4,6 +4,7 @@ import 'package:window_manager/window_manager.dart';
 import 'desktop_theme.dart';
 import 'providers/navigation_provider.dart';
 import 'widgets/desktop_sidebar.dart';
+import 'widgets/window_controls.dart';
 import 'screens/desktop_dashboard_screen.dart';
 import 'screens/desktop_platforms_screen.dart';
 import 'screens/desktop_history_screen.dart';
@@ -45,19 +46,21 @@ class DesktopScaffold extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                // Window Title Bar (Draggable)
-                DragToMoveArea(
-                  child: Container(
-                    height: 32,
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    alignment: Alignment.centerRight,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // Window controls would go here if we hide title bar
-                      ],
-                    ),
+                // Window Title Bar (Draggable) + window controls
+                Container(
+                  height: 32,
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: Row(
+                    children: [
+                      // Draggable area fills the remaining space
+                      const Expanded(
+                        child: DragToMoveArea(
+                          child: SizedBox(height: 32, width: double.infinity),
+                        ),
+                      ),
+                      // Minimize / Maximize / Close
+                      const WindowControls(),
+                    ],
                   ),
                 ),
                 Expanded(

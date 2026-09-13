@@ -1,7 +1,7 @@
 name: ssid_finder
 description: Chipa SSID Finder - Extract session tokens from trading platforms with ease. Supports OlympTrade, PocketOptions, Axiom Trade, and more.
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.1.0+2
 
 # App metadata for stores
 homepage: https://github.com/theshadow76/Chipa-SSID-Finder
@@ -21,6 +21,7 @@ dependencies:
   fl_chart: ^0.66.2
   font_awesome_flutter: ^10.9.0
   intl: ^0.19.0
+  webview_cef: ^0.6.2
 
 dev_dependencies:
   flutter_test:

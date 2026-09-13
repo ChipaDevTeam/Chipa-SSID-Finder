@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/trading_platform.dart';
-import 'webview_screen.dart';
+import 'extraction_screen.dart';
 
 class PlatformSelectorScreen extends StatefulWidget {
   const PlatformSelectorScreen({super.key});
@@ -184,7 +184,7 @@ class _PlatformSelectorScreenState extends State<PlatformSelectorScreen>
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => WebViewScreen(platform: platform),
+                builder: (context) => buildExtractionScreen(platform),
               ),
             );
           },

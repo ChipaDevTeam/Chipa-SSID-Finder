@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../models/trading_platform.dart';
 import '../widgets/desktop_platform_card.dart';
-import '../../screens/webview_screen.dart';
+import '../../screens/extraction_screen.dart';
 
 class DesktopPlatformsScreen extends StatelessWidget {
   const DesktopPlatformsScreen({super.key});
@@ -68,8 +68,8 @@ class DesktopPlatformsScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => WebViewScreen(
-                          platform: PlatformConstants.platforms[index],
+                        builder: (context) => buildExtractionScreen(
+                          PlatformConstants.platforms[index],
                         ),
                       ),
                     );

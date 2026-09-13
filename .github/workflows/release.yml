@@ -1,0 +1,118 @@
+name: Desktop Release
+
+# Build the Windows and Linux desktop apps and publish them to a GitHub Release.
+#
+# Trigger by pushing a version tag:
+#   git tag v1.0.0 && git push origin v1.0.0
+# Or run manually from the Actions tab (workflow_dispatch) to get build
+# artifacts without creating a release.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FLUTTER_VERSION: '3.35.7'
+
+jobs:
+  build-linux:
+    name: Build Linux (x64)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Linux desktop + CEF dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang cmake ninja-build pkg-config libgtk-3-dev \
+            mesa-utils libnss3 libnspr4 libgbm1 libasound2t64 xclip
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Cache CEF download
+        uses: actions/cache@v4
+        with:
+          path: linux/third/cef
+          key: cef-linux-${{ hashFiles('pubspec.lock') }}
+
+      - run: flutter config --enable-linux-desktop
+      - run: flutter pub get
+      - run: flutter build linux --release
+
+      - name: Strip CEF binary (shrinks bundle ~1.3GB -> ~200MB)
+        run: strip build/linux/x64/release/bundle/lib/libcef.so || true
+
+      - name: Package tarball
+        run: |
+          cd build/linux/x64/release/bundle
+          tar czf "${GITHUB_WORKSPACE}/ChipaSSIDFinder-linux-x64.tar.gz" .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-x64
+          path: ChipaSSIDFinder-linux-x64.tar.gz
+          if-no-files-found: error
+
+  build-windows:
+    name: Build Windows (x64)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Cache CEF download
+        uses: actions/cache@v4
+        with:
+          path: windows/third/cef
+          key: cef-windows-${{ hashFiles('pubspec.lock') }}
+
+      - run: flutter config --enable-windows-desktop
+      - run: flutter pub get
+      - run: flutter build windows --release
+
+      - name: Package zip
+        shell: pwsh
+        run: |
+          Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath ChipaSSIDFinder-windows-x64.zip -Force
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64
+          path: ChipaSSIDFinder-windows-x64.zip
+          if-no-files-found: error
+
+  release:
+    name: Publish GitHub Release
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/linux-x64/ChipaSSIDFinder-linux-x64.tar.gz
+            artifacts/windows-x64/ChipaSSIDFinder-windows-x64.zip
+          generate_release_notes: true
+          draft: false
+          fail_on_unmatched_files: true
