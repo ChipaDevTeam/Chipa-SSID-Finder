@@ -100,6 +100,24 @@ const myPlatform = TradingPlatform(
 );
 ```
 
+## Documentation
+
+Full docs live in [`doc/`](doc/README.md):
+
+- [Getting started](doc/getting-started.md)
+- [Platform setup](doc/platform-setup.md)
+- [Usage](doc/usage.md)
+- [Supported platforms](doc/platforms.md)
+- [How it works](doc/how-it-works.md)
+- [API reference](doc/api-reference.md)
+
+## Responsible use
+
+This package reads authentication cookies from sites the user logs into inside
+your app. Only use it against platforms and accounts you are authorised to
+access, and treat extracted tokens as secrets — do not log them in production or
+send them to third parties.
+
 ## License
 
 No license file ships with this package yet — add one before publishing.
