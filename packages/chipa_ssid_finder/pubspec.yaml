@@ -1,0 +1,23 @@
+name: chipa_ssid_finder
+description: Extract session tokens (SSIDs) from trading platforms via an embedded WebView. Ships pure-Dart extraction logic plus a drop-in Flutter widget for Android, iOS, macOS, Windows and Linux.
+version: 1.0.0
+homepage: https://github.com/theshadow76/Chipa-SSID-Finder
+repository: https://github.com/theshadow76/Chipa-SSID-Finder
+issue_tracker: https://github.com/theshadow76/Chipa-SSID-Finder/issues
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.10.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_inappwebview: ^6.1.0
+  webview_cef: ^0.6.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
